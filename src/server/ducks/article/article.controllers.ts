@@ -15,6 +15,16 @@ export const findAll = async (options?: Pagination) => {
         console.log(`Error - when try to fetch all: ${  err}`);
     }
 };
+export const findByTitleAndAuthors = async (title) => {
+    try {
+        return await ArticleModel.find({
+            title: title
+        });
+
+    } catch (err) {
+        console.log(`Error - when try to fetch all: ${  err}`);
+    }
+};
 
 export const save = async data => {
     try {

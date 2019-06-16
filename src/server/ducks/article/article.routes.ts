@@ -2,13 +2,19 @@
 import {RoutesInputType} from '../../types/routes';
 
 // Model
-import {findAll, save, change, deleteOne} from './article.controllers';
+import {findAll, save, change, deleteOne, findByTitleAndAuthors} from './article.controllers';
 
 async function articleApi(app: RoutesInputType) {
-    //@ts-ignore
     app.get('/api/v1/articles', async (req, res) => {
         try {
-            res.json(await findAll());
+            //TODO: fetch authores to fetch their name
+            //const filterAuthors = req.query.author;
+            const title = req.query.title;
+            if (title) {
+                res.json(await findByTitleAndAuthors(title));
+            } else {
+                res.json(await findAll());
+            }
         } catch (err) {
             console.error('ERROR ' + err);
             res.status(500).json('Something goes wrong when try to fetch all the articles');
@@ -18,7 +24,7 @@ async function articleApi(app: RoutesInputType) {
         try {
             const articles = await change(req.body);
             console.log('ARTICLES RESPONSE LOG POST ------> ' + JSON.stringify(articles));
-            res.json(await findAll());
+            res.json();
         } catch (err) {
             console.error('ERROR ' + err);
             res.status(500).json('Something goes wrong when try to change the article ');
@@ -26,9 +32,7 @@ async function articleApi(app: RoutesInputType) {
     });
     app.delete('/api/v1/articles/:id', async (req, res) => {
         try {
-            console.log('LLEGO DELETE:: ');
             const articleId = req.params.id;
-            console.log('articleId :: ' + articleId);
             await deleteOne(articleId);
             res.json(200);
         } catch (err) {
@@ -36,6 +40,7 @@ async function articleApi(app: RoutesInputType) {
             res.status(500).json('Something goes wrong when try to delete the article ');
         }
     });
+
     app.post('/api/v1/articles', async (req, res) => {
         try {
             const articles = await save(req.body);
@@ -53,3 +58,4 @@ const articleRoutes = [
 ];
 
 export default articleRoutes;
+
