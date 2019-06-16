@@ -1,0 +1,136 @@
+@import '../../style/commons';
+
+$height-header: 10vh;
+
+.vtm-article-page {
+
+  background: url(https://ik.imagekit.io/cdnstorage786/2800x2100-164069926-black-blue-wallpapers_fa-_bUC4D.jpg) center / auto;
+  background-size: cover;
+  background-position-y: 20px;
+
+  &__title {
+    color: $white;
+    position: fixed;
+    top: 30vh;
+
+    @include bp(xs) {
+      top: 10vh;
+    }
+    align-self: center;
+  }
+
+  .vtm-loading {
+    position: fixed;
+    top: 30vh;
+    align-self: center;
+    font-size: 2em;
+  }
+
+  &__header {
+    text-align: center;
+    background-color: black;
+    height: $height-header;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+    left: 0;
+    right: 0;
+    z-index: 999;
+
+    &-search {
+      display: flex;
+
+      &-icon {
+        margin-left: .5em;
+        &:hover {
+          cursor: pointer;
+          transition: all 1s;
+          opacity: 1;
+        }
+      }
+
+      &-label {
+        color: $white;
+        &.mdl-textfield__label {
+          color: $white;
+        }
+      }
+
+      .material-icons {
+        color: $white;
+      }
+    }
+
+    .mdl-textfield {
+      margin-right: 1em;
+
+      &__input {
+        border-bottom: 1px solid lightgray;
+        color: white;
+      }
+
+      &__label {
+        color: $white;
+      }
+    }
+  }
+
+  &__body {
+    overflow-y: auto;
+    height: 100vh;
+
+    @include bp(xs) {
+      h2 {
+        font-size: 2em;
+      }
+    }
+
+    .vtm-loading {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    &-catalogs {
+      padding-top: $height-header + 5vh;
+      max-width: $lg-width;
+      margin: 0 auto;
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+
+      &.is-loading {
+        justify-content: center;
+        align-items: center;
+        height: 90vh;
+        transform: scale(1.3);
+      }
+
+      .vtm-card {
+
+        padding: 1em;
+        opacity: .7;
+
+        &:hover {
+          opacity: 1;
+        }
+
+        .card__image:hover {
+          @include hover-card;
+        }
+      }
+    }
+  }
+
+  .vtm-add-button {
+    position: fixed;
+    right: 1em;
+    bottom: 1em;
+
+    &:hover {
+      cursor: pointer;
+      opacity: .8;
+    }
+  }
+}

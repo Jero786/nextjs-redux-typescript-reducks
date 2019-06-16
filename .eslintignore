@@ -1,0 +1,26 @@
+/build/**
+/coverage/**
+/docs/**
+/jsdoc/**
+/templates/**
+/tests/bench/**
+/tests/fixtures/**
+/tests/performance/**
+/tmp/**
+/lib/rules/utils/unicode/is-combining-character.js
+test.js
+!.eslintrc.js
+*.legacy.ts
+
+# Dependency directories
+node_modules/
+
+# next.js build output
+.next
+src/client/.next/
+src/client/next.config.js
+
+.idea
+
+# production server output
+dist

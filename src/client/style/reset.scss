@@ -1,0 +1,17 @@
+@import 'commons';
+
+html {
+  font-size: 62.5%;
+  font-family: 'Pacifico', cursive;
+}
+
+body {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  margin: 0 auto;
+}
+
+*:focus {
+  outline: none;
+  outline-width: 0;
+}

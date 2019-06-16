@@ -1,0 +1,13 @@
+# Dependency directories
+node_modules/
+
+# next.js build output
+.next
+src/client/.next/
+.idea
+.env
+.DS_Store
+coverage
+
+# production server output
+dist
