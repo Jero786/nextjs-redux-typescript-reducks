@@ -11,7 +11,7 @@ export const findAll = async (options?: Pagination) => {
         }
         return await ArticleModel.find(defaultResponse);
     } catch (err) {
-        console.log(`Error - when try to fetch all: ${err}`);
+        console.error(`Error - when try to fetch all: ${err}`);
     }
 };
 
@@ -33,7 +33,7 @@ export const findByTitleAndAuthors = async (title: string, author: string) => {
 
         return await ArticleModel.find(query);
     } catch (err) {
-        console.log(`Error - when try to fetch all: ${err}`);
+        console.error(`Error - when try to fetch articles by title: ${title} and author: ${author}, Message: ${err}`);
     }
 };
 

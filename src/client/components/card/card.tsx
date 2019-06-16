@@ -57,6 +57,8 @@ function Card({
         setStateTitle,
         title,
         setIsEditMode,
+        selectedAvatarsId,
+        setStateSelectedAvatars
     );
 
     const listEl = renderAvatarList(itemId, avatars, stateSelectedAvatars, isEditMode, setIsEditMode, (selectedAvatarsUpdated) => {
@@ -183,6 +185,8 @@ function renderCancelButton(
     setStateTitle,
     title,
     setIsEditMode,
+    selectedAvatarsId,
+    setStateSelectedAvatars
 ) {
     return isEditMode ? (
         <button
@@ -191,6 +195,7 @@ function renderCancelButton(
                 setStateLongDescription(longDescription);
                 setStateDescription(shortDescription);
                 setStateTitle(title);
+                setStateSelectedAvatars(selectedAvatarsId);
                 setIsEditMode(!isEditMode);
             }}
         >

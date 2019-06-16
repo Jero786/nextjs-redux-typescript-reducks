@@ -11,7 +11,6 @@ const initialState = fromJS({
     isRequestingDeleteArticle: false,
     isRequestingByTitleAndAuthor: false,
     isCallRefetchingArticles: false,
-
 });
 
 const articles = createReducer(initialState)({
