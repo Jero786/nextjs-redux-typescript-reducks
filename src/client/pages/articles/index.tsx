@@ -21,6 +21,7 @@ interface Props {
     requestSearch: () => void;
     requestAuthors: () => void;
     newArticleShown: () => void;
+    requestDeleteArticle: (string) => void;
     requestNewArticle: (object) => void;
     requestChangeArticle: (object) => void;
     isRequestingArticles: boolean;
@@ -65,7 +66,8 @@ class HomePage extends React.PureComponent<Props, State> {
             authors,
             newArticleShown,
             requestNewArticle,
-            requestChangeArticle
+            requestChangeArticle,
+            requestDeleteArticle
         } = this.props;
 
         let catalogsEl;
@@ -94,11 +96,7 @@ class HomePage extends React.PureComponent<Props, State> {
                                 requestNewArticle(payload);
                             }
                         }}
-                        onClickDelete={
-                            (/* articleId */) => {
-                                // trigger delete action
-                            }
-                        }
+                        onClickDelete={() => requestDeleteArticle(get(article, '_id'))}
                     />
                 );
             });
@@ -168,6 +166,7 @@ const mapDispatchToProps = dispatch => {
         newArticleShown: bindActionCreators(articleActions.newArticleShown, dispatch),
         requestNewArticle: bindActionCreators(articleActions.requestNewArticle, dispatch),
         requestChangeArticle: bindActionCreators(articleActions.requestChangeArticle, dispatch),
+        requestDeleteArticle: bindActionCreators(articleActions.requestDeleteArticle, dispatch),
     };
 };
 

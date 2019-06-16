@@ -15,7 +15,7 @@ interface CardProps {
     title: string;
     shortDescription: string;
     longDescription: string;
-    onClickDelete: (string) => void;
+    onClickDelete: () => void;
     onClickSave: (object) => void;
     itemId: string;
     selectedAvatarsId: string[];
