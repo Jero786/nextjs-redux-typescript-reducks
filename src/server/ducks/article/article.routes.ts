@@ -22,19 +22,19 @@ async function articleApi(app: RoutesInputType) {
     });
     app.put('/api/v1/articles', async (req, res) => {
         try {
-            const articles = await change(req.body);
-            console.log(`ARTICLES RESPONSE LOG POST ------> ${JSON.stringify(articles)}`);
-            res.json();
+             await change(req.body);
+            res.json({});
         } catch (err) {
             console.error(`ERROR ${err}`);
             res.status(500).json('Something goes wrong when try to change the article ');
         }
     });
+
     app.delete('/api/v1/articles/:id', async (req, res) => {
         try {
             const articleId = req.params.id;
             await deleteOne(articleId);
-            res.json(200);
+            res.json({});
         } catch (err) {
             console.error(`ERROR ${err}`);
             res.status(500).json('Something goes wrong when try to delete the article ');
@@ -43,9 +43,8 @@ async function articleApi(app: RoutesInputType) {
 
     app.post('/api/v1/articles', async (req, res) => {
         try {
-            const articles = await save(req.body);
-            console.log(`ARTICLES RESPONSE LOG POST ------> ${JSON.stringify(articles)}`);
-            res.json(await findAll());
+            await save(req.body);
+            res.json({});
         } catch (err) {
             console.error(`ERROR ${err}`);
             res.status(500).json('Something goes wrong when try to change the add the new article ');

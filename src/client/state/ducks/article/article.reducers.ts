@@ -9,13 +9,18 @@ const initialState = fromJS({
     isRequestingNewArticle: false,
     isRequestingChangeArticle: false,
     isRequestingDeleteArticle: false,
+    isRequestingByTitleAndAuthor: false,
     isCallRefetchingArticles: false,
+
 });
 
 const articles = createReducer(initialState)({
     [types.REQUEST_CHANGE_ARTICLE]: state => state.merge({isRequestingChangeArticle: true}),
     [types.REQUEST_CHANGE_ARTICLE_COMPLETED]: state => state.merge({isRequestingChangeArticle: false}),
     [types.REQUEST_CHANGE_ARTICLE_FAILED]: state => state.merge({isRequestingChangeArticle: false}),
+    [types.REQUEST_SEARCH_BY_TITLE_AND_AUTHOR]: state => state.merge({isRequestingByTitleAndAuthor: true}),
+    [types.REQUEST_SEARCH_BY_TITLE_AND_AUTHOR_COMPLETED]: onSearchByTitleAndAuthor,
+    [types.REQUEST_SEARCH_BY_TITLE_AND_AUTHOR_FAILED]: state => state.merge({isRequestingByTitleAndAuthor: false}),
     [types.REQUEST_NEW_ARTICLE]: state => state.merge({isRequestingNewArticle: true}),
     [types.REQUEST_NEW_ARTICLE_COMPLETED]:state => state.merge({isRequestingNewArticle: false}),
     [types.REQUEST_NEW_ARTICLE_FAILED]: state => state.merge({isRequestingNewArticle: false}),
@@ -44,6 +49,13 @@ function hasNewArticleWithoutSave(articles = []) {
 function onSearchCompleted(state, action) {
     return state.merge({
         isRequesting: false,
+        articles: action.payload || [],
+    });
+}
+
+function onSearchByTitleAndAuthor(state, action) {
+    return state.merge({
+        isRequestingByTitleAndAuthor: false,
         articles: action.payload || [],
     });
 }

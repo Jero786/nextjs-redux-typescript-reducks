@@ -42,7 +42,7 @@ export const save = async data => {
         data._id = null;
         data.created_at = new Date().toISOString();
         const newArticle = new ArticleModel(data);
-        return await newArticle.save(err => {
+        await newArticle.save(err => {
             if (err) {
                 console.error(`Error when try to add, caused by [${err}]`);
                 return err;
@@ -56,7 +56,7 @@ export const save = async data => {
 export const change = async data => {
     try {
         data.updated_at = new Date().toISOString();
-        return await ArticleModel.findByIdAndUpdate(data._id, data, err => {
+        await ArticleModel.findByIdAndUpdate(data._id, data, err => {
             if (err) {
                 console.error(`Error when try to update, caused by [${err}]`);
                 return err;
