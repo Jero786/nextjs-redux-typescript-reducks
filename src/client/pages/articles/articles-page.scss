@@ -1,6 +1,6 @@
 @import '../../style/commons';
 
-$height-header: 10vh;
+$height-header: 20vh;
 
 .vtm-article-page {
 
@@ -38,6 +38,19 @@ $height-header: 10vh;
     right: 0;
     z-index: 999;
 
+    &-filter {
+
+      &-author {
+        //background-color: red;
+        margin-right: 10px;
+      }
+
+      &-title {
+        //background-color: blue;
+      }
+
+    }
+
     &-search {
       display: flex;
 
@@ -54,16 +67,28 @@ $height-header: 10vh;
         color: $white;
         &.mdl-textfield__label {
           color: $white;
+
+          &--author {
+          }
+          &--title {
+          }
         }
       }
 
       .material-icons {
         color: $white;
+        padding-top: 20px;
       }
     }
 
     .mdl-textfield {
       margin-right: 1em;
+
+      width: auto;
+
+      &__label {
+      }
+
 
       &__input {
         border-bottom: 1px solid lightgray;

@@ -3,10 +3,10 @@ import './articles-page.scss';
 
 // Libs
 import React from 'react';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import { get } from 'lodash/object';
-import { initDefaultPropsFromContext } from '../../state/utils/context-utils';
+import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
+import {get} from 'lodash/object';
+import {initDefaultPropsFromContext} from '../../state/utils/context-utils';
 
 // Component
 import Layout from '../../../client/components/layout/layout';
@@ -14,8 +14,8 @@ import Card from '../../components/card/card';
 import Loading from '../../components/loading/loading';
 
 // Ducks
-import { articleOperation, articleSelectors, articleActions } from '../../state/ducks/article';
-import { authorSelectors, authorActions } from '../../state/ducks/author';
+import {articleOperation, articleSelectors, articleActions} from '../../state/ducks/article';
+import {authorSelectors, authorActions} from '../../state/ducks/author';
 
 interface Props {
     requestSearch: () => void;
@@ -24,6 +24,7 @@ interface Props {
     requestDeleteArticle: (string) => void;
     requestNewArticle: (object) => void;
     requestChangeArticle: (object) => void;
+    requestSearchByTitleAndAuthor: (...string) => void;
     callRefetchingArticlesCompleted: () => void;
     isRequestingArticles: boolean;
     isRequestingAuthors: boolean;
@@ -34,16 +35,18 @@ interface Props {
 }
 
 interface State {
-    valueSearch: string;
+    searchByAuthor: string;
+    searchByTitle: string;
 }
 
 class HomePage extends React.PureComponent<Props, State> {
     state = {
-        valueSearch: '',
+        searchByAuthor: '',
+        searchByTitle: ''
     };
 
     componentDidMount() {
-        const { requestSearch, requestAuthors } = this.props;
+        const {requestSearch, requestAuthors} = this.props;
         requestSearch();
         requestAuthors();
     }
@@ -62,13 +65,14 @@ class HomePage extends React.PureComponent<Props, State> {
 
     ['handleOnSearch'] = evt => {
         evt.preventDefault();
-        const { requestSearch } = this.props;
-
-        requestSearch();
+        const {requestSearchByTitleAndAuthor} = this.props;
+        const {searchByTitle, searchByAuthor} = this.state;
+        debugger
+        requestSearchByTitleAndAuthor(searchByTitle, searchByAuthor);
     };
 
     render() {
-        const { valueSearch } = this.state;
+        const {searchByAuthor, searchByTitle} = this.state;
         const {
             isRequestingArticles,
             isRequestingAuthors,
@@ -85,11 +89,11 @@ class HomePage extends React.PureComponent<Props, State> {
         let emptyMessageEl;
 
         if (isRequestingArticles || isRequestingAuthors) {
-            loadingEl = <Loading />;
+            loadingEl = <Loading/>;
         }
 
         if (!isRequestingArticles && articles) {
-            catalogsEl = articles.map((article, index )=> {
+            catalogsEl = articles.map((article, index) => {
                 return (
                     <Card
                         key={`article-id-${get(article, '_id') || index}`}
@@ -121,21 +125,42 @@ class HomePage extends React.PureComponent<Props, State> {
                 <div className="vtm-article-page">
                     <div className="vtm-article-page__header">
                         <form action="" onSubmit={this.handleOnSearch}>
-                            <div className="vtm-article-page__header-search mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-                                <label
-                                    htmlFor="input-2"
-                                    className="vtm-article-page__header-search-label mdl-textfield__label"
-                                >
-                                    Search
-                                </label>
+                            <div
+                                className="vtm-article-page__header-search mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
 
-                                <input
-                                    className="mdl-textfield__input"
-                                    defaultValue={valueSearch}
-                                    id="input-2"
-                                    type="text"
-                                    onChange={evt => this.setState({ valueSearch: evt.target.value })}
-                                />
+                                <div className="mdl-textfield mdl-js-textfield vtm-article-page__header-filter-author">
+
+                                    <label
+                                        htmlFor="input-search-by-author"
+                                        className="vtm-article-page__header-search-label mdl-textfield__label mdl-textfield__label--author"
+                                    >
+                                        By Author
+                                    </label>
+
+                                    <input
+                                        className="mdl-textfield__input"
+                                        defaultValue={searchByAuthor}
+                                        id="input-search-by-author"
+                                        type="text"
+                                        onChange={evt => this.setState({searchByAuthor: evt.target.value})}
+                                    />
+                                </div>
+                                <div className="mdl-textfield mdl-js-textfield vtm-article-page__header-filter-title">
+                                    <label
+                                        htmlFor="input-search-by-title"
+                                        className="vtm-article-page__header-search-label mdl-textfield__label mdl-textfield__label--title"
+                                    >
+                                        By title
+                                    </label>
+
+                                    <input
+                                        className="mdl-textfield__input"
+                                        defaultValue={searchByTitle}
+                                        id="input-search-by-title"
+                                        type="text"
+                                        onChange={evt => this.setState({searchByTitle: evt.target.value})}
+                                    />
+                                </div>
 
                                 <i
                                     role="button"
@@ -164,34 +189,37 @@ class HomePage extends React.PureComponent<Props, State> {
                         </button>
                     </div>
                 </div>
-            </Layout>
-        );
-    }
-}
+                <
+                /Layout>
+                )
+                ;
+                }
+                }
 
-const mapDispatchToProps = dispatch => {
-    return {
-        requestSearch: bindActionCreators(articleOperation.requestSearch, dispatch),
-        callRefetchingArticlesCompleted: bindActionCreators(articleActions.callRefetchingArticlesCompleted, dispatch),
-        requestAuthors: bindActionCreators(authorActions.requestSearch, dispatch),
-        newArticleShown: bindActionCreators(articleActions.newArticleShown, dispatch),
-        requestNewArticle: bindActionCreators(articleActions.requestNewArticle, dispatch),
-        requestChangeArticle: bindActionCreators(articleActions.requestChangeArticle, dispatch),
-        requestDeleteArticle: bindActionCreators(articleActions.requestDeleteArticle, dispatch),
-    };
-};
+                const mapDispatchToProps = dispatch => {
+                return {
+                requestSearch: bindActionCreators(articleOperation.requestSearch, dispatch),
+                callRefetchingArticlesCompleted: bindActionCreators(articleActions.callRefetchingArticlesCompleted, dispatch),
+                requestAuthors: bindActionCreators(authorActions.requestSearch, dispatch),
+                newArticleShown: bindActionCreators(articleActions.newArticleShown, dispatch),
+                requestNewArticle: bindActionCreators(articleActions.requestNewArticle, dispatch),
+                requestChangeArticle: bindActionCreators(articleActions.requestChangeArticle, dispatch),
+                requestDeleteArticle: bindActionCreators(articleActions.requestDeleteArticle, dispatch),
+                requestSearchByTitleAndAuthor: bindActionCreators(articleActions.requestSearchByTitleAndAuthor, dispatch),
+            };
+            };
 
-const mapStateToProps = state => {
-    return {
-        isRequestingArticles: articleSelectors.isRequesting(state),
-        isCallRefetchingArticles: articleSelectors.isCallRefetchingArticles(state),
-        isRequestingAuthors: authorSelectors.isRequesting(state),
-        articles: articleSelectors.getArticles(state),
-        authors: authorSelectors.getAuthors(state),
-    };
-};
+                const mapStateToProps = state => {
+                return {
+                isRequestingArticles: articleSelectors.isRequesting(state),
+                isCallRefetchingArticles: articleSelectors.isCallRefetchingArticles(state),
+                isRequestingAuthors: authorSelectors.isRequesting(state),
+                articles: articleSelectors.getArticles(state),
+                authors: authorSelectors.getAuthors(state),
+            };
+            };
 
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps,
-)(HomePage);
+                export default connect(
+                mapStateToProps,
+                mapDispatchToProps,
+                )(HomePage);
