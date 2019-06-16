@@ -5,6 +5,7 @@ export interface AsyncActionBody {
     path: string;
     method: RestMethod;
     body?: any;
+    actionAfterCompleted?: object,
 }
 
 export interface AsyncActionStructure {

@@ -9,18 +9,21 @@ const initialState = fromJS({
     isRequestingNewArticle: false,
     isRequestingChangeArticle: false,
     isRequestingDeleteArticle: false,
+    isCallRefetchingArticles: false,
 });
 
 const articles = createReducer(initialState)({
     [types.REQUEST_CHANGE_ARTICLE]: state => state.merge({isRequestingChangeArticle: true}),
-    [types.REQUEST_CHANGE_ARTICLE_COMPLETED]: onRequestChangeArticledCompleted,
+    [types.REQUEST_CHANGE_ARTICLE_COMPLETED]: state => state.merge({isRequestingChangeArticle: false}),
     [types.REQUEST_CHANGE_ARTICLE_FAILED]: state => state.merge({isRequestingChangeArticle: false}),
     [types.REQUEST_NEW_ARTICLE]: state => state.merge({isRequestingNewArticle: true}),
-    [types.REQUEST_NEW_ARTICLE_COMPLETED]: onRequestNewArticledCompleted,
+    [types.REQUEST_NEW_ARTICLE_COMPLETED]:state => state.merge({isRequestingNewArticle: false}),
     [types.REQUEST_NEW_ARTICLE_FAILED]: state => state.merge({isRequestingNewArticle: false}),
     [types.REQUEST_SEARCH]: state => state.merge({isRequesting: true}),
     [types.REQUEST_SEARCH_COMPLETED]: onSearchCompleted,
     [types.REQUEST_SEARCH_FAILED]: state => state.merge({isRequesting: false}),
+    [types.CALL_REFETCHING_ARTICLES]: state => state.merge({isCallRefetchingArticles: true}),
+    [types.CALL_REFETCHING_ARTICLES_COMPLETED]: state => state.merge({isCallRefetchingArticles: false}),
     [types.NEW_ARTICLE_SHOWN]: onNewArticleShown
 });
 
@@ -42,20 +45,6 @@ function onSearchCompleted(state, action) {
     return state.merge({
         isRequesting: false,
         articles: action.payload || [],
-    });
-}
-
-function onRequestNewArticledCompleted(state, action) {
-    return state.merge({
-        isRequestingNewArticle: false,
-        articles: action.payload
-    });
-}
-
-function onRequestChangeArticledCompleted(state, action) {
-    return state.merge({
-        isRequestingChangeArticle: false,
-        articles: action.payload
     });
 }
 

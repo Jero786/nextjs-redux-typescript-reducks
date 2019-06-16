@@ -2,6 +2,8 @@ import * as types from './article.types';
 import { AsyncActionStructure, SyncActionStructure } from '../../middlewares/api-services';
 
 export const newArticleShown = (): SyncActionStructure => ({ type: types.NEW_ARTICLE_SHOWN });
+export const callRefetchingArticles = (): SyncActionStructure => ({ type: types.CALL_REFETCHING_ARTICLES});
+export const callRefetchingArticlesCompleted = (): SyncActionStructure => ({ type: types.CALL_REFETCHING_ARTICLES_COMPLETED});
 
 export const requestSearch = (): AsyncActionStructure => ({
     type: types.REQUEST_SEARCH,
@@ -18,6 +20,7 @@ export const requestDeleteArticle = (articleId): AsyncActionStructure => ({
     type: types.REQUEST_DELETE,
     meta: {
         async: true,
+        actionAfterCompleted: callRefetchingArticles(),
         path: `/articles/${articleId}`,
         method: 'DELETE',
     },
@@ -29,6 +32,7 @@ export const requestNewArticle = (articlePayload): AsyncActionStructure => ({
     type: types.REQUEST_NEW_ARTICLE,
     meta: {
         async: true,
+        actionAfterCompleted: callRefetchingArticles(),
         path: `/articles`,
         method: 'POST',
         body: articlePayload,
@@ -41,6 +45,7 @@ export const requestChangeArticle = (articlePayload): AsyncActionStructure => ({
     type: types.REQUEST_CHANGE_ARTICLE,
     meta: {
         async: true,
+        actionAfterCompleted: callRefetchingArticles(),
         path: `/articles`,
         method: 'PUT',
         body: articlePayload,

@@ -24,8 +24,10 @@ interface Props {
     requestDeleteArticle: (string) => void;
     requestNewArticle: (object) => void;
     requestChangeArticle: (object) => void;
+    callRefetchingArticlesCompleted: () => void;
     isRequestingArticles: boolean;
     isRequestingAuthors: boolean;
+    isCallRefetchingArticles: boolean;
     tracks: [];
     articles: [];
     authors: [];
@@ -44,6 +46,14 @@ class HomePage extends React.PureComponent<Props, State> {
         const { requestSearch, requestAuthors } = this.props;
         requestSearch();
         requestAuthors();
+    }
+
+    componentDidUpdate() {
+        const {isCallRefetchingArticles, requestSearch, callRefetchingArticlesCompleted} = this.props;
+        if (isCallRefetchingArticles) {
+            callRefetchingArticlesCompleted();
+            requestSearch();
+        }
     }
 
     static getInitialProps() {
@@ -67,7 +77,7 @@ class HomePage extends React.PureComponent<Props, State> {
             newArticleShown,
             requestNewArticle,
             requestChangeArticle,
-            requestDeleteArticle
+            requestDeleteArticle,
         } = this.props;
 
         let catalogsEl;
@@ -162,6 +172,7 @@ class HomePage extends React.PureComponent<Props, State> {
 const mapDispatchToProps = dispatch => {
     return {
         requestSearch: bindActionCreators(articleOperation.requestSearch, dispatch),
+        callRefetchingArticlesCompleted: bindActionCreators(articleActions.callRefetchingArticlesCompleted, dispatch),
         requestAuthors: bindActionCreators(authorActions.requestSearch, dispatch),
         newArticleShown: bindActionCreators(articleActions.newArticleShown, dispatch),
         requestNewArticle: bindActionCreators(articleActions.requestNewArticle, dispatch),
@@ -173,6 +184,7 @@ const mapDispatchToProps = dispatch => {
 const mapStateToProps = state => {
     return {
         isRequestingArticles: articleSelectors.isRequesting(state),
+        isCallRefetchingArticles: articleSelectors.isCallRefetchingArticles(state),
         isRequestingAuthors: authorSelectors.isRequesting(state),
         articles: articleSelectors.getArticles(state),
         authors: authorSelectors.getAuthors(state),

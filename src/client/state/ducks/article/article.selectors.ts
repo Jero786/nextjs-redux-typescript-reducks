@@ -13,3 +13,10 @@ export const isRequesting = (state = fromJS({})) => {
         return article.get('isRequesting');
     }
 };
+
+export const isCallRefetchingArticles = (state = fromJS({})) => {
+    const article = state.get('article');
+    if (article && article.get) {
+        return article.get('isCallRefetchingArticles');
+    }
+};

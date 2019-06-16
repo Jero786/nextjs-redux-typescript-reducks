@@ -39,6 +39,10 @@ function handleResponse(res, action, next) {
         meta: action.meta,
     });
 
+    if (action.meta.actionAfterCompleted) {
+        next(action.meta.actionAfterCompleted);
+    }
+
     return res;
 }
 
