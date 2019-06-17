@@ -17,15 +17,17 @@ $ npm install --save-dev husky prettier-eslint
 
 ### Setting environment variable
 
-In order to connect with Spotify API, you will need create your account to get your public and private client id.
-Once you get both, please create in a ROOT file, an new file called `.env` with the following information:
+Only you will need to create in a ROOT directory, an new file called `.env` with the following information:
 
 ```
 MONGODB_SCHEMA_NAME=articles-code-challenge
 MONGODB_URL=mongodb://localhost/articles-code-challenge
+INSERT_AUTHORS_AT_STARTUP=true
 ```
 
 **NOTE**: In case that use `nvm` you will need to set by default  Node+6 (eg: `nvm alias default v10.8.0`)
+
+Also, you need to have installed MongoDB in your local environment. In case that you don't have installed yet, please follow this instructions [Install MongoDB](https://docs.mongodb.com/manual/installation/).
 
 ### Starting the application
 
@@ -36,7 +38,7 @@ $ npm run dev
 
 And then, open a browser with the following link:
 ```
-http://localhost:8888
+http://localhost:3000
 ```
 ### Running unit tests
 ```
@@ -50,13 +52,20 @@ $ npm run test:watch
 ### Some design, principles and best practices
 
 * Re-Ducks: Following this proposal structure improve modularity and encapsulation (only expose `index.tsx` from each dock folder, for instance: `state/ducks/catalog/index.ts`). Also allow us to scale better and improve testability of actions, action creators, reducers, operators and selectors in a really flexible way.
+* In order to be easy researchable for the most IDE, the file name conventions of the project is the following:
+    - [module_name].[type-file].ts
+     Eg: 
+    - `article.actions.ts`
+    - `article.d.ts`
+    - `article.operations.ts`
+    - `article.reducers.ts`
+    - `article.selectors.ts`
+    - etc
+
 * Typescript: Implementing check typing in a dynamic interpreted language like JS, help us and also to Ides, to catch typos and errors while your are coding. That is a really important when you app will be large.
-* State Selectors (`state-selector`): Implementing selectors improve complex operations and also to lifting our state in a more granular way (help us to keep following SRP principle).
-* Actions Selectors (`action-selector`): Similar concept to State selectors, but apply to the response of payload async action. (really helpful when you response payload is really big)
-* Filter async action payload response(`FormatterField[]`):I create a Tree data structured, which you can define the fields that you want to persist into our state store.
-* Selectors name convention:`Selector name: get<Noun>`
-* Following top down best practice (most important and public collaborates first, like a news paper).
-* Favor React controller component over uncontrolled component. (In order to follow single source of truth principle as much as possible, and also to get component easier to work with).
+* Selectors (`selectors`): Implementing selectors improve complex operations and also to lifting our state in a more granular way (help us to keep following SRP principle). Also we open a windows of improvements to implement `reselect` or other mechanism of memoization.
+* Selectors naming convention:`Selector name: get<Noun>`
+* Following top down best practice redeability declaration (most important and public collaborates first, like a news paper).
 * BEM: using block element modifier and with some variation of SMACSS like (`is-visible` instead of `block--visible`) is a really clean way to style components. Also it's a really a performance way to style component instead use neested selectors. (you don't care any more about not pass to 3 nested level)
 * Server: the end-point should be prefixed with: `/api/v1`. That help us to versioning our API, and also to be a common pre-fix url to apply easy filters, middlewares, etc.
 * REST calls in a middleware, instead of action creators: That allow us to decrease the coupling between our action creators and the side-effect libraries(`redux-thunk`, `redux-saga`, `redux-observable`, etc). Also make test simpler and our modules more isolates. Also give us teh possibility to implement in parallel with other libraries like `redux-observable` with Epics idea.
@@ -77,6 +86,7 @@ Following that convention, help us to avoid boilerplate code using `api-service.
 * Action Types names convention is:
 1. ACTION: Effect is most commonly a noun that means the result of an action —> <NOUN>_<VERB> —> `CATALOG_ADDED` | `CATALOG_REMOVED`
 1. ASYNC ACTION CREATOR: Affect is most commonly a verb —> <VERB><NOUN> —> `REQUESTING_CATALOG` | `REQUESTING_CATALOG_COMPLETED` | `REQUESTING_CATALOG_FAILED`
+
 ### Frameworks & libraries
 * NextJS used to provider server rendering for performance, SEO and Code splitting reasons.
 * React-testing-Library: A really useful library to help us to test React component in a clean, predictable and readable way.
@@ -85,24 +95,6 @@ Following that convention, help us to avoid boilerplate code using `api-service.
 * Lodash: For cross browsing support, performance and reliable way to handler data. (only for dump component and action creators).
 * Prettier/husky/lint-staged/Eslint, Help us to avoid commit and push some code that don't follow with the default standards of the project and also prevent to push some code that don't pass the UT. (It's already configure airbnb, and eslint:recommended practices)
 * Following in each part of the app SRP (Single responsibility principle). One reason to change. Each module/class/function has their own level of the abstraction.
-
-### Spotify API integration
-
-Some of reasons why I chose connect by `Authorization Code`:
-
-1. The original example of this test project was create a part of a SaaS which give you a full platform for internment, such as Music, Video, etc. 
-The data that serve to the user, will be suggested, filtered, and in some cases changed, depends on the user which is log in. 
-In that business context, I need to have a full control over the information that need to display, so I need to create a kind of gateway/proxy between out API to the external APIs services. 
-the the external API services. For that reason, among others, I think it's better to connect with Spotify API by `Authorization Code` fit better than `Client Credentials` and `Implicit Grant`.
-
-Some of reasons why I didn't like to connect by `Client Credentials` or `Implicit Grant`:
-
-1. SSR: We are not able to make server rendering, so request need to make it from node.jse server.
-1. Security: There are more security concert to make this request from the server, than the client side.
-1. The SDK: A really bad thing also to use SDK, if you don't have control over how to display, how to show.
-1. The warning from official document: 'The content and functionality may change without warning in future versions.’. If you are a SaaS, you need to be responsible, so that such of things you will not want to.
-1. Business rule, Be Your Safe: In order to populate our database with tracking information to improve our system of suggestion, we need to create like a gateway/proxy of request between our user platform and the external services.
-1. Also, making server side request you have more control, we could implement cache request, make filter, etc.
 
 ### Testing tips
 
@@ -121,6 +113,11 @@ Some of reasons why I didn't like to connect by `Client Credentials` or `Implici
 * Implement some CI such as Circle or Travis.
 * E2E Testing with Cypress. It's really powerful implement it, in order to save time in the regressions testing.
 * Implement some Lib report in Backend side and also in front-end side to be sure that your app are working properly, otherwise send a email when throws some error.
+
+## Particulars React component design:
+
+* I choose to be build `Card` component in a uncontroller way, because I didn't want to populate the global state, with custom states of the inner context. I prefer in this particular case, let the global state clean of custom behaviors from that component. That allow us, to be focus our state reducer more in buisness logic and high level state. And also don't have performance issue problems. [Please take a look this comment for more detail](https://twitter.com/acdlite/status/1045362245507506176). Also Kent Dodds, is mention  that in same cases, the state of your components should be near as much as possible from their origin. A general rule, it's try to build controller component, as much as possible. But, the component that has a really complex behavior, didn't make sense to populate your global state, with internal state of the component.
+* Aslo `Card` component could be large, and I didn't split in sub component as well. That was for the reason, to prevent that my application surface, don't keep growing uneeded. Just, if you need to re-use some port of the component, split that. But, don't split from the begining. This Rule, is some trend the las year that I saw that is doing several React expert. 
 
 ### Deployed link:
 [Link APP](https://application-blog-2.herokuapp.com)
