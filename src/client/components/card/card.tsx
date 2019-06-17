@@ -38,7 +38,7 @@ function Card({
     const [stateLongDescription, setStateLongDescription] = useState(longDescription);
     const [stateSelectedAvatars, setStateSelectedAvatars] = useState(selectedAvatarsId);
 
-    const titleEl = renderTitle(isEditMode, setStateTitle, stateTitle, setIsEditMode);
+    const titleEl = renderTitle(isEditMode, setStateTitle, stateTitle);
     const descriptionEl = renderShortDescription(isEditMode, setStateDescription, stateDescription, setIsEditMode);
     const longDescriptionEl = renderLongDescription(
         setStateLongDescription,
