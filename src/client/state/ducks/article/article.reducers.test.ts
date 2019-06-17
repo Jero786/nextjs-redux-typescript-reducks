@@ -48,7 +48,6 @@ describe('Article reducer', () => {
         const result = reducer(initialState, Actions.requestNewArticleCompleted());
 
         expect(result.get('isRequestingNewArticle')).toBe(false);
-        expect(result.get('articles').length).toBe(1);
     });
 
     it('should request new article failed', function() {

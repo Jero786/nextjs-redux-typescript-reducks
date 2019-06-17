@@ -15,6 +15,9 @@ const initialState = fromJS({
 
 const articles = createReducer(initialState)({
     [types.REQUEST_CHANGE_ARTICLE]: state => state.merge({isRequestingChangeArticle: true}),
+    [types.REQUEST_DELETE]: state => state.merge({isRequestingDeleteArticle: true}),
+    [types.REQUEST_DELETE_COMPLETED]: state => state.merge({isRequestingDeleteArticle: false}),
+    [types.REQUEST_DELETE_FAILED]: state => state.merge({isRequestingDeleteArticle: false}),
     [types.REQUEST_CHANGE_ARTICLE_COMPLETED]: state => state.merge({isRequestingChangeArticle: false}),
     [types.REQUEST_CHANGE_ARTICLE_FAILED]: state => state.merge({isRequestingChangeArticle: false}),
     [types.REQUEST_SEARCH_BY_TITLE_AND_AUTHOR]: state => state.merge({isRequestingByTitleAndAuthor: true}),
