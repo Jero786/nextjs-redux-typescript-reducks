@@ -166,7 +166,8 @@ class HomePage extends React.PureComponent<Props, State> {
                                     role="button"
                                     onClick={this.handleOnSearch}
                                     tabIndex={0}
-                                    onKeyPress={() => {}}
+                                    onKeyPress={() => {
+                                    }}
                                     className="vtm-article-page__header-search-icon material-icons"
                                 >
                                     search
@@ -189,37 +190,36 @@ class HomePage extends React.PureComponent<Props, State> {
                         </button>
                     </div>
                 </div>
-                <
-                /Layout>
-                )
-                ;
-                }
-                }
+            </Layout>
+        )
+            ;
+    }
+}
 
-                const mapDispatchToProps = dispatch => {
-                return {
-                requestSearch: bindActionCreators(articleOperation.requestSearch, dispatch),
-                callRefetchingArticlesCompleted: bindActionCreators(articleActions.callRefetchingArticlesCompleted, dispatch),
-                requestAuthors: bindActionCreators(authorActions.requestSearch, dispatch),
-                newArticleShown: bindActionCreators(articleActions.newArticleShown, dispatch),
-                requestNewArticle: bindActionCreators(articleActions.requestNewArticle, dispatch),
-                requestChangeArticle: bindActionCreators(articleActions.requestChangeArticle, dispatch),
-                requestDeleteArticle: bindActionCreators(articleActions.requestDeleteArticle, dispatch),
-                requestSearchByTitleAndAuthor: bindActionCreators(articleActions.requestSearchByTitleAndAuthor, dispatch),
-            };
-            };
+const mapDispatchToProps = dispatch => {
+    return {
+        requestSearch: bindActionCreators(articleOperation.requestSearch, dispatch),
+        callRefetchingArticlesCompleted: bindActionCreators(articleActions.callRefetchingArticlesCompleted, dispatch),
+        requestAuthors: bindActionCreators(authorActions.requestSearch, dispatch),
+        newArticleShown: bindActionCreators(articleActions.newArticleShown, dispatch),
+        requestNewArticle: bindActionCreators(articleActions.requestNewArticle, dispatch),
+        requestChangeArticle: bindActionCreators(articleActions.requestChangeArticle, dispatch),
+        requestDeleteArticle: bindActionCreators(articleActions.requestDeleteArticle, dispatch),
+        requestSearchByTitleAndAuthor: bindActionCreators(articleActions.requestSearchByTitleAndAuthor, dispatch),
+    };
+};
 
-                const mapStateToProps = state => {
-                return {
-                isRequestingArticles: articleSelectors.isRequesting(state),
-                isCallRefetchingArticles: articleSelectors.isCallRefetchingArticles(state),
-                isRequestingAuthors: authorSelectors.isRequesting(state),
-                articles: articleSelectors.getArticles(state),
-                authors: authorSelectors.getAuthors(state),
-            };
-            };
+const mapStateToProps = state => {
+    return {
+        isRequestingArticles: articleSelectors.isRequesting(state),
+        isCallRefetchingArticles: articleSelectors.isCallRefetchingArticles(state),
+        isRequestingAuthors: authorSelectors.isRequesting(state),
+        articles: articleSelectors.getArticles(state),
+        authors: authorSelectors.getAuthors(state),
+    };
+};
 
-                export default connect(
-                mapStateToProps,
-                mapDispatchToProps,
-                )(HomePage);
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps,
+)(HomePage);

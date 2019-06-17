@@ -4,6 +4,7 @@ const baseUrl = typeof document === 'undefined' ? `http://localhost:8888/api/v1`
 
 const apiService = () => next => action => {
     const result = next(action);
+
     if (!action.meta || !action.meta.async) {
         return result;
     }

@@ -1,6 +1,6 @@
 @import '../../style/commons';
 
-$height-header: 20vh;
+$height-header: 100px;
 
 .vtm-article-page {
 
@@ -118,7 +118,7 @@ $height-header: 20vh;
     }
 
     &-catalogs {
-      padding-top: $height-header + 5vh;
+      padding-top: $height-header + 50px;
       max-width: $lg-width;
       margin: 0 auto;
       display: flex;

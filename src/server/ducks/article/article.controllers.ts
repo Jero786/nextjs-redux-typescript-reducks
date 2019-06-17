@@ -17,9 +17,9 @@ export const findAll = async (options?: Pagination) => {
 
 interface QueryString {
     title?: string;
-    author?: string;
+    authors?: any[];
 }
-export const findByTitleAndAuthors = async (title: string, author: string) => {
+export const findByTitleAndAuthors = async (title: string, authors: string) => {
     try {
         const query: QueryString = {};
 
@@ -27,15 +27,18 @@ export const findByTitleAndAuthors = async (title: string, author: string) => {
             query.title = title;
         }
 
-        if (author) {
-            query.author = author;
+        if (authors) {
+            //@ts-ignore
+            query.authors = {'$elemMatch': {'$in': authors.split(',')}};
         }
 
         return await ArticleModel.find(query);
     } catch (err) {
-        console.error(`Error - when try to fetch articles by title: ${title} and author: ${author}, Message: ${err}`);
+        console.error(`Error - when try to fetch articles by title: ${title} and author: ${authors}, Message: ${err}`);
     }
 };
+
+
 
 export const save = async data => {
     try {
