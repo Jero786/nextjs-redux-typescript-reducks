@@ -32,7 +32,7 @@ describe('Card', () => {
         expect(spy.calledOnce).toBe(true);
     });
 
-    it('should work click save handler properly', () => {
+    it('should handler click save handler properly', () => {
         let resultOnClick;
         const {getByTestId} = render(
             <Card
