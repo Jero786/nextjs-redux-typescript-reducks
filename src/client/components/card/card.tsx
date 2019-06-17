@@ -79,6 +79,7 @@ function Card({
             <div className="vtm-card__body">
                 {isEditMode ? cancelButtonEl : deleteButtonEl}
                 <button
+                    data-testid="vtm-button-save"
                     onClick={() => {
                         if (isEditMode) {
                             onClickSave({
@@ -91,7 +92,7 @@ function Card({
                         }
                         setIsEditMode(!isEditMode);
                     }}
-                    className="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored"
+                    className="vtm-card-btn__save mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored"
                 >
                     <i className="material-icons">{isEditMode ? 'save' : 'edit'}</i>
                 </button>
@@ -108,6 +109,7 @@ function renderLongDescription(setStateLongDescription, stateLongDescription, se
     return isEditMode ? (
         <div className="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
             <textarea
+                data-testid="vtm-card-textarea"
                 className="mdl-textfield__input"
                 onChange={evt => setStateLongDescription(evt.target.value)}
                 id="textLarge"
@@ -164,13 +166,14 @@ function renderTitle(isEditMode, setStateTitle, stateTitle, setIsEditMode) {
 
 function renderDeleteButton(isEditMode, onClickDelete, itemId) {
     return isEditMode ? (
-        <button disabled className="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored">
+        <button disabled className="vtm-card-btn__delete mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored">
             <i className="material-icons">delete</i>
         </button>
     ) : (
         <button
             onClick={() => onClickDelete(itemId)}
-            className="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored"
+            data-testid="card-button-delete"
+            className="vtm-card-btn__delete mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored"
         >
             <i className="material-icons">delete</i>
         </button>
