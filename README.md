@@ -52,7 +52,7 @@ $ npm run test:watch
 ### Some design, principles and best practices
 
 * Re-Ducks: Following this proposal structure improve modularity and encapsulation (only expose `index.tsx` from each dock folder, for instance: `state/ducks/catalog/index.ts`). Also allow us to scale better and improve testability of actions, action creators, reducers, operators and selectors in a really flexible way.
-* In order to be easy researchable for the most IDE, the file name conventions of the project is the following:
+* In order to be easy to search your resources, the file name conventions of the project is the following:
     - [module_name].[type-file].ts
      Eg: 
     - `article.actions.ts`
@@ -105,19 +105,23 @@ Following that convention, help us to avoid boilerplate code using `api-service.
 * Avoid global variables. Instead, declare them in setup method.
 * Follow the DRY principle (Don’t Repeat Yourself). If we identify that we have repeated code throughout our tests use beforeEach function to put the code in one place.
 * Putting comments in the header of the test is an anti-pattern, avoid them.
-* Don't test action isolate, when testing reducer I like to test action as well in order to avoid unwanted testing. (I know that sounds like a integrating test instead of unit test, but it make sense for me.)
+* Don't test action isolate, when testing reducer I like to test action as well in order to avoid unwanted testing. (I know that sounds like an integrating test instead of unit test, but it make sense for me.)
 
-### Techical pending implementations stuff
+### Technical pending implementation
 
+* Improve in a way that much closer to be a full PWA application.
 * Implement Normalize, to have a flatten state. That help you to make more performance the shallow equality performed and also to deal with a easy structure store.
 * Implement some CI such as Circle or Travis.
 * E2E Testing with Cypress. It's really powerful implement it, in order to save time in the regressions testing.
-* Implement some Lib report in Backend side and also in front-end side to be sure that your app are working properly, otherwise send a email when throws some error.
+* Improve Logging report in Backend side and also in front-end side to be sure that your app are working properly, otherwise send a email when throws some error.
+* implement reselect to improve performance in out selectors.
+* Increase UT code coverage from FE and BE.
+
 
 ## Particulars React component design:
 
-* I choose to be build `Card` component in a uncontroller way, because I didn't want to populate the global state, with custom states of the inner context. I prefer in this particular case, let the global state clean of custom behaviors from that component. That allow us, to be focus our state reducer more in buisness logic and high level state. And also don't have performance issue problems. [Please take a look this comment for more detail](https://twitter.com/acdlite/status/1045362245507506176). Also Kent Dodds, is mention  that in same cases, the state of your components should be near as much as possible from their origin. A general rule, it's try to build controller component, as much as possible. But, the component that has a really complex behavior, didn't make sense to populate your global state, with internal state of the component.
-* Aslo `Card` component could be large, and I didn't split in sub component as well. That was for the reason, to prevent that my application surface, don't keep growing uneeded. Just, if you need to re-use some port of the component, split that. But, don't split from the begining. This Rule, is some trend the las year that I saw that is doing several React expert. 
+* I choose to be build `Card` component in a uncontroller way, because I didn't want to populate the global state, with custom states of the inner context. I prefer in this particular case, let the global state clean of custom behaviors from that particular component. That allow us, to be focus in buisiness logic, and high level state of your app. And also avoid potencial performance problem. [Please take a look this comment for more detail](https://twitter.com/acdlite/status/1045362245507506176). Also Kent Dodds, also mentioned  that. In some use cases, you state should be near as much as possible from their origin. A general rule, it's try to build controller component, as much as possible. But, the component that has a really complex behavior, didn't make sense to populate your global state, with internal state of the component.
+* Aslo `Card` component could be large, and I didn't split in sub component as well. That was for the reason, to prevent that my application surface, don't keep growing unneeded. Just, if you need to re-use some port of the component, split that. But, don't split from the start. This Rule, is some trend the las year that I saw that is doing several React expert. 
 
 ### Deployed link:
 [Link APP](https://application-blog-2.herokuapp.com)
