@@ -123,4 +123,4 @@ Some of reasons why I didn't like to connect by `Client Credentials` or `Implici
 * Implement some Lib report in Backend side and also in front-end side to be sure that your app are working properly, otherwise send a email when throws some error.
 
 ### Deployed link:
-[Link APP](https://pure-shore-67296.herokuapp.com)
+[Link APP](https://application-blog-2.herokuapp.com)
