@@ -33,6 +33,7 @@ module.exports = {
         'no-use-before-define': 'off',
         '@typescript-eslint/no-use-before-define': 'off',
         'no-underscore-dangle': 'off',
+        'consistent-return': 'off',
         'prettier/prettier': 'error',
         'react/jsx-filename-extension': [1, { extensions: ['.js', '.ts', '.tsx'] }],
         '@typescript-eslint/explicit-function-return-type': 'off',
