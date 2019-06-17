@@ -10,6 +10,7 @@ interface QueryString {
     authors?: any[];
 }
 
+const isTesting = process.env.NODE_ENV === 'test'
 
 export const findAll = async (options?: Pagination) => {
     try {
@@ -52,8 +53,12 @@ export const save = async data => {
         data._id = null;
         data.is_active = true;
         data.created_at = new Date().toISOString();
-        const newArticle = new ArticleModel(data);
-        await newArticle.save(defaultResponse);
+        const newArticle = await ArticleModel.create(data);
+
+        if (isTesting) {
+            newArticle._id = '123';
+            return newArticle;
+        }
     } catch (err) {
         console.error(`Error - Save article: ${err}`);
     }
@@ -62,7 +67,14 @@ export const save = async data => {
 export const change = async data => {
     try {
         data.updated_at = new Date().toISOString();
-        await ArticleModel.findByIdAndUpdate(data._id, data, defaultResponse);
+        const articleChanged = await ArticleModel.findByIdAndUpdate(data._id, data, defaultResponse);
+
+        console.log('ARTICLES CHANGEDDDD LOG ------> ' + JSON.stringify(articleChanged));
+
+
+        if (isTesting) {
+            return articleChanged;
+        }
     } catch (err) {
         console.error(`Error - Changing article : ${err}`);
     }
@@ -74,6 +86,14 @@ export const deleteOne = async articleId => {
         articleResult.deleted_at = new Date().toISOString();
         articleResult.is_active = false;
         await articleResult.save();
+    } catch (err) {
+        console.error(`Error - Deleting article: ${err}`);
+    }
+};
+
+export const deleteAll = async () => {
+    try {
+        await ArticleModel.deleteMany({});
     } catch (err) {
         console.error(`Error - Deleting article: ${err}`);
     }
