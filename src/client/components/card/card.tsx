@@ -2,8 +2,8 @@
 import './card.scss';
 
 // Libs
-import React, {useState, memo} from 'react';
-import {toggler, getElementByClassName} from '../../utils/content-utils';
+import React, { useState, memo } from 'react';
+import { toggler, getElementByClassName } from '../../utils/content-utils';
 
 interface Avatar {
     _id: string;
@@ -23,16 +23,15 @@ interface CardProps {
 }
 
 function Card({
-                  title,
-                  shortDescription = '',
-                  longDescription = '',
-                  onClickDelete = () => {},
-                  onClickSave = () => {},
-                  itemId = '',
-                  avatars = [],
-                  selectedAvatarsId = [],
-              }: CardProps) {
-
+    title,
+    shortDescription = '',
+    longDescription = '',
+    onClickDelete = () => {},
+    onClickSave = () => {},
+    itemId = '',
+    avatars = [],
+    selectedAvatarsId = [],
+}: CardProps) {
     const [isEditMode, setIsEditMode] = useState(false);
     const [stateTitle, setStateTitle] = useState(title);
     const [stateDescription, setStateDescription] = useState(shortDescription);
@@ -58,12 +57,19 @@ function Card({
         title,
         setIsEditMode,
         selectedAvatarsId,
-        setStateSelectedAvatars
+        setStateSelectedAvatars,
     );
 
-    const listEl = renderAvatarList(itemId, avatars, stateSelectedAvatars, isEditMode, setIsEditMode, (selectedAvatarsUpdated) => {
-        setStateSelectedAvatars(selectedAvatarsUpdated);
-    });
+    const listEl = renderAvatarList(
+        itemId,
+        avatars,
+        stateSelectedAvatars,
+        isEditMode,
+        setIsEditMode,
+        selectedAvatarsUpdated => {
+            setStateSelectedAvatars(selectedAvatarsUpdated);
+        },
+    );
 
     return (
         <div className="vtm-card">
@@ -72,13 +78,12 @@ function Card({
                 <small className="vtm-card__subtitle">Id: {itemId}</small>
                 <div className="vtm-card__header-description">{descriptionEl}</div>
             </div>
-            <div className="vtm-card__middle">
-                {longDescriptionEl}
-            </div>
+            <div className="vtm-card__middle">{longDescriptionEl}</div>
             <div className="vtm-card__sibling-middle">{listEl}</div>
             <div className="vtm-card__body">
                 {isEditMode ? cancelButtonEl : deleteButtonEl}
                 <button
+                    type="button"
                     data-testid="vtm-button-save"
                     onClick={() => {
                         if (isEditMode) {
@@ -87,7 +92,7 @@ function Card({
                                 long_description: stateLongDescription,
                                 title: stateTitle,
                                 authors: stateSelectedAvatars,
-                                _id: itemId ? itemId : undefined,
+                                _id: itemId || undefined,
                             });
                         }
                         setIsEditMode(!isEditMode);
@@ -101,7 +106,7 @@ function Card({
     );
 }
 
-function isAvatarChecked(avatarToValidate: Avatar = {_id: '-1'}, avatarSelected: string[] = []) {
+function isAvatarChecked(avatarToValidate: Avatar = { _id: '-1' }, avatarSelected: string[] = []) {
     return avatarSelected.indexOf(avatarToValidate._id) > -1;
 }
 
@@ -120,7 +125,9 @@ function renderLongDescription(setStateLongDescription, stateLongDescription, se
             </label>
         </div>
     ) : (
-        <div onClick={() => setIsEditMode(!isEditMode)}>{stateLongDescription}</div>
+        <div tabIndex={0} role="button" onKeyPress={() => {}} onClick={() => setIsEditMode(!isEditMode)}>
+            {stateLongDescription}
+        </div>
     );
 }
 
@@ -139,11 +146,13 @@ function renderShortDescription(isEditMode, setStateDescription, stateDescriptio
             </label>
         </div>
     ) : (
-        <div onClick={() => setIsEditMode(!isEditMode)}>{stateDescription}</div>
+        <div tabIndex={0} role="button" onKeyPress={() => {}} onClick={() => setIsEditMode(!isEditMode)}>
+            {stateDescription}
+        </div>
     );
 }
 
-function renderTitle(isEditMode, setStateTitle, stateTitle, setIsEditMode) {
+function renderTitle(isEditMode, setStateTitle, stateTitle) {
     return isEditMode ? (
         <div className="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
             <input
@@ -158,19 +167,22 @@ function renderTitle(isEditMode, setStateTitle, stateTitle, setIsEditMode) {
             </label>
         </div>
     ) : (
-        <h3 onClick={() => setIsEditMode(!isEditMode)} className="vtm-card__header-title">
-            {stateTitle}
-        </h3>
+        <h3 className="vtm-card__header-title">{stateTitle}</h3>
     );
 }
 
 function renderDeleteButton(isEditMode, onClickDelete, itemId) {
     return isEditMode ? (
-        <button disabled className="vtm-card-btn__delete mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored">
+        <button
+            type="button"
+            disabled
+            className="vtm-card-btn__delete mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored"
+        >
             <i className="material-icons">delete</i>
         </button>
     ) : (
         <button
+            type="button"
             onClick={() => onClickDelete(itemId)}
             data-testid="card-button-delete"
             className="vtm-card-btn__delete mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored"
@@ -190,10 +202,11 @@ function renderCancelButton(
     title,
     setIsEditMode,
     selectedAvatarsId,
-    setStateSelectedAvatars
+    setStateSelectedAvatars,
 ) {
     return isEditMode ? (
         <button
+            type="button"
             className="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored"
             onClick={() => {
                 setStateLongDescription(longDescription);
@@ -215,17 +228,22 @@ function renderAvatarList(itemId, avatars, selectedAvatarsId, isEditMode, setIsE
     if (avatars) {
         avatarsEl = renderAvatarEl(itemId, avatars, selectedAvatarsId);
         listEl = (
-            <ul onClick={isEditMode ? onClickAvatar.bind(this, selectedAvatarsId, onFinishToggle) : () => {
-                setIsEditMode(!isEditMode)
-            }}
-                className={`vtm-avatar__list mdl-list${isEditMode ? ' is-edit' : ''}`}>
+            <ul
+                onKeyPress={() => {}}
+                role="button"
+                onClick={
+                    isEditMode
+                        ? onClickAvatar.bind(this, selectedAvatarsId, onFinishToggle)
+                        : () => setIsEditMode(!isEditMode)
+                }
+                className={`vtm-avatar__list mdl-list${isEditMode ? ' is-edit' : ''}`}
+            >
                 {avatarsEl}
             </ul>
         );
     }
     return listEl;
 }
-
 
 function onClickAvatar(selectedAvatarsId, onFinishToggle, evt) {
     // using here list-item as a Mediator, to perform event delegation.
@@ -235,7 +253,6 @@ function onClickAvatar(selectedAvatarsId, onFinishToggle, evt) {
     toggleSelectedAvatar(selectedAvatarsId.slice(), avatarId, onFinishToggle);
 }
 
-
 function toggleSelectedAvatar(selectedAvatarsId: [], avatarId: string, onFinishToggle): void {
     const selectedAvatarsUpdated = toggler(selectedAvatarsId, avatarId);
     onFinishToggle(selectedAvatarsUpdated);
@@ -243,30 +260,30 @@ function toggleSelectedAvatar(selectedAvatarsId: [], avatarId: string, onFinishT
 
 function renderAvatarEl(itemId, avatars = [], selectedAvatarsId = []) {
     return avatars.map(avatar => {
-
         const avatarEl = (
-            <input data-avatar-id={avatar._id}
-                   type="checkbox"
-                   id={`list-checkbox-${avatar._id}_${itemId}`}
-                   className="mdl-switch__input"
-                   onChange={() => {}} // we are using event delegation pattern, here nothing to do, just empty function to avoid React warning
-                   checked={isAvatarChecked(avatar, selectedAvatarsId)}
+            <input
+                data-avatar-id={avatar._id}
+                type="checkbox"
+                id={`list-checkbox-${avatar._id}_${itemId}`}
+                className="mdl-switch__input"
+                onChange={() => {}} // we are using event delegation pattern, here nothing to do, just empty function to avoid React warning
+                checked={isAvatarChecked(avatar, selectedAvatarsId)}
             />
         );
 
         return (
-            <li key={`avatar-id-${avatar._id}_${itemId}`} data-avatar-id={avatar._id}
-                className="vtm-avatar__list-item mdl-list__item">
+            <li
+                key={`avatar-id-${avatar._id}_${itemId}`}
+                data-avatar-id={avatar._id}
+                className="vtm-avatar__list-item mdl-list__item"
+            >
                 <small className="vtm-avatar__list-item-subtitle">Id: {avatar._id}</small>
                 <span className="mdl-list__item-primary-content">
                     <i className="material-icons mdl-list__item-avatar">person</i>
-                    <div>
-                    {avatar.title}
-                    </div>
+                    <div>{avatar.title}</div>
                 </span>
                 <span className="mdl-list__item-secondary-action">
-                    <label className="mdl-switch"
-                           htmlFor={`list-checkbox-${avatar._id}_${itemId}`}>
+                    <label className="mdl-switch" htmlFor={`list-checkbox-${avatar._id}_${itemId}`}>
                         {avatarEl}
                     </label>
                 </span>
