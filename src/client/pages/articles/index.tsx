@@ -67,7 +67,6 @@ class HomePage extends React.PureComponent<Props, State> {
         evt.preventDefault();
         const {requestSearchByTitleAndAuthor} = this.props;
         const {searchByTitle, searchByAuthor} = this.state;
-        debugger
         requestSearchByTitleAndAuthor(searchByTitle, searchByAuthor);
     };
 

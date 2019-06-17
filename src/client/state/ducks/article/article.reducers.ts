@@ -33,10 +33,11 @@ const articles = createReducer(initialState)({
 
 function newArticleFactory() {
     return {
-        title: 'CHANGE NEW TITLE',
-        short_description: 'CHANGE SHORT DESCRIPTION',
-        long_description: 'CHANGE LONG DESCRIPTION',
-        authors:[]
+        title: 'Title',
+        short_description: 'Some short description',
+        long_description: 'Some long description here',
+        authors:[],
+        is_active: true
     };
 }
 

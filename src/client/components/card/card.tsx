@@ -69,6 +69,7 @@ function Card({
         <div className="vtm-card">
             <div className="vtm-card__header">
                 {titleEl}
+                <small className="vtm-card__subtitle">Id: {itemId}</small>
                 <div className="vtm-card__header-description">{descriptionEl}</div>
             </div>
             <div className="vtm-card__middle">
@@ -85,7 +86,7 @@ function Card({
                                 long_description: stateLongDescription,
                                 title: stateTitle,
                                 authors: stateSelectedAvatars,
-                                _id: itemId ? itemId : undefined
+                                _id: itemId ? itemId : undefined,
                             });
                         }
                         setIsEditMode(!isEditMode);
@@ -253,9 +254,12 @@ function renderAvatarEl(itemId, avatars = [], selectedAvatarsId = []) {
         return (
             <li key={`avatar-id-${avatar._id}_${itemId}`} data-avatar-id={avatar._id}
                 className="vtm-avatar__list-item mdl-list__item">
+                <small className="vtm-avatar__list-item-subtitle">Id: {avatar._id}</small>
                 <span className="mdl-list__item-primary-content">
                     <i className="material-icons mdl-list__item-avatar">person</i>
+                    <div>
                     {avatar.title}
+                    </div>
                 </span>
                 <span className="mdl-list__item-secondary-action">
                     <label className="mdl-switch"

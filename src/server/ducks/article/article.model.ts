@@ -13,6 +13,7 @@ export const ArticleSchema: Schema = new Schema({
     created_at: {type: String, required: true},
     deleted_at: {type: String, required: false},
     authors: {type: Array, required: true},
+    is_active: {type: Boolean, required: true}
 });
 
 ArticleSchema.plugin(mongoosePaginate);

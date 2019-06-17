@@ -2,84 +2,80 @@
 import ArticleModel from './article.model';
 
 // Type
-import { Pagination } from '../common/commons.d';
+import {Pagination} from '../common/commons.d';
+
+interface QueryString {
+    is_active: boolean;
+    title?: string;
+    authors?: any[];
+}
+
 
 export const findAll = async (options?: Pagination) => {
     try {
         if (options) {
             return await ArticleModel.paginate({}, options, defaultResponse);
         }
-        return await ArticleModel.find(defaultResponse);
+        return await ArticleModel.find({'is_active': true}, defaultResponse);
     } catch (err) {
         console.error(`Error - when try to fetch all: ${err}`);
     }
 };
 
-interface QueryString {
-    title?: string;
-    authors?: any[];
-}
+export const findOne = async (articleId) => {
+    try {
+        return await ArticleModel.find({'_id': articleId, 'is_active': true}, defaultResponse);
+    } catch (err) {
+        console.error(`Error - when try to fetch all: ${err}`);
+    }
+};
+
 export const findByTitleAndAuthors = async (title: string, authors: string) => {
     try {
-        const query: QueryString = {};
+        const query: QueryString = {is_active: true};
 
         if (title) {
             query.title = title;
         }
-
         if (authors) {
             //@ts-ignore
             query.authors = {'$elemMatch': {'$in': authors.split(',')}};
         }
-
         return await ArticleModel.find(query);
     } catch (err) {
         console.error(`Error - when try to fetch articles by title: ${title} and author: ${authors}, Message: ${err}`);
     }
 };
 
-
-
 export const save = async data => {
     try {
         data._id = null;
+        data.is_active = true;
         data.created_at = new Date().toISOString();
         const newArticle = new ArticleModel(data);
-        await newArticle.save(err => {
-            if (err) {
-                console.error(`Error when try to add, caused by [${err}]`);
-                return err;
-            }
-        });
+        await newArticle.save(defaultResponse);
     } catch (err) {
-        console.log(`Error - Save article: ${err}`);
+        console.error(`Error - Save article: ${err}`);
     }
 };
 
 export const change = async data => {
     try {
         data.updated_at = new Date().toISOString();
-        await ArticleModel.findByIdAndUpdate(data._id, data, err => {
-            if (err) {
-                console.error(`Error when try to update, caused by [${err}]`);
-                return err;
-            }
-        });
+        await ArticleModel.findByIdAndUpdate(data._id, data, defaultResponse);
     } catch (err) {
-        console.log(`Error - Changing article : ${err}`);
+        console.error(`Error - Changing article : ${err}`);
     }
 };
 
 export const deleteOne = async articleId => {
     try {
-        await ArticleModel.findByIdAndDelete(articleId, err => {
-            if (err) {
-                console.error(`Error when try to delete, caused by [${err}]`);
-                return err;
-            }
-        });
+        const articleResult = await ArticleModel.findById(articleId, defaultResponse);
+        articleResult.deleted_at = new Date().toISOString();
+        articleResult.is_active = false;
+        await articleResult.save();
     } catch (err) {
-        console.log(`Error - Deleting article: ${err}`);
+        console.error(`Error - Deleting article: ${err}`);
     }
 };
 

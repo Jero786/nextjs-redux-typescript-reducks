@@ -20,7 +20,6 @@ $bg-hover: rgba(211, 211, 211, 0.21);
 
     &-title {
       margin: 0;
-      padding-bottom: 1em;
       font-weight: 100;
 
       &:hover {
@@ -31,6 +30,7 @@ $bg-hover: rgba(211, 211, 211, 0.21);
 
     &-description {
       margin: 0;
+      padding-top: 2em;
       padding-bottom: 2em;
 
       &:hover {
@@ -38,6 +38,11 @@ $bg-hover: rgba(211, 211, 211, 0.21);
         background-color: $bg-hover;
       }
     }
+  }
+
+  &__subtitle {
+    padding-bottom: 3em;
+    color: gray;
   }
 
   &__middle {
@@ -73,13 +78,27 @@ $bg-hover: rgba(211, 211, 211, 0.21);
     }
   }
 
-  .vtm-avatar__list {
+  .vtm-avatar {
 
-    &-item {
-      color: white;
-      &:hover, input {
-        cursor: pointer;
-        background-color: $bg-hover;
+
+    &__list {
+
+      &-item {
+        position: relative;
+        color: white;
+        padding-bottom: 25px;
+
+        &-subtitle {
+          color: gray;
+          position: absolute;
+          bottom: 0;
+          left: 20px
+        }
+
+        &:hover, input {
+          cursor: pointer;
+          background-color: $bg-hover;
+        }
       }
     }
   }

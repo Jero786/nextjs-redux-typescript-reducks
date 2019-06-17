@@ -2,9 +2,10 @@
 import { RoutesInputType } from '../../types/routes';
 
 // Model
-import { findAll, save, change, deleteOne, findByTitleAndAuthors } from './article.controllers';
+import { findAll, save, change, deleteOne, findByTitleAndAuthors, findOne } from './article.controllers';
 
 async function articleApi(app: RoutesInputType) {
+
     app.get('/api/v1/articles', async (req, res) => {
         try {
             const { title } = req.query;
@@ -20,6 +21,7 @@ async function articleApi(app: RoutesInputType) {
             res.status(500).json('Something goes wrong when try to fetch all the articles');
         }
     });
+
     app.put('/api/v1/articles', async (req, res) => {
         try {
              await change(req.body);
@@ -38,6 +40,17 @@ async function articleApi(app: RoutesInputType) {
         } catch (err) {
             console.error(`ERROR ${err}`);
             res.status(500).json('Something goes wrong when try to delete the article ');
+        }
+    });
+
+    app.get('/api/v1/articles/:id', async (req, res) => {
+        try {
+            const articleId = req.params.id;
+            return await findOne(articleId);
+            res.json({});
+        } catch (err) {
+            console.error(`ERROR ${err}`);
+            res.status(500).json('Something goes wrong when try to find one the article');
         }
     });
 
