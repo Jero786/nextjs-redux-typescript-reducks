@@ -15,7 +15,8 @@
     "exclude": [
         "dist",
         "src/server/**/*.legacy.*",
-        "src/server/types/*"
+        "src/server/types/*",
+        "test/*.js"
     ],
     "include": [
         "src/server/**/*.ts"

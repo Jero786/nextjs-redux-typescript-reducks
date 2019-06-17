@@ -28,6 +28,7 @@
   },
   "exclude": [
       "dist",
+      "test",
       "**/*.spec.ts",
       "**/*.spec.tsx",
       "**/*.test.ts",
