@@ -1,4 +1,4 @@
-# Virtual Mind - Code challenge
+# Typescript Mongoose NextJS Redux simple App
 
 ### Prerequisites
 
