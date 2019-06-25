@@ -26,6 +26,7 @@ export const requestSearchByTitleAndAuthor = (title, author): AsyncActionStructu
         method: 'GET',
     },
 });
+
 export const requestSearchByTitleAndAuthorCompleted = (): SyncActionStructure => ({
     type: types.REQUEST_SEARCH_BY_TITLE_AND_AUTHOR_COMPLETED,
 });
@@ -42,6 +43,7 @@ export const requestDeleteArticle = (articleId): AsyncActionStructure => ({
         method: 'DELETE',
     },
 });
+
 export const requestDeleteCompleted = (): SyncActionStructure => ({ type: types.REQUEST_DELETE_COMPLETED });
 export const requestDeleteFailed = (): SyncActionStructure => ({ type: types.REQUEST_DELETE_FAILED });
 
@@ -68,6 +70,7 @@ export const requestChangeArticle = (articlePayload): AsyncActionStructure => ({
         body: articlePayload,
     },
 });
+
 export const requestChangeArticleCompleted = (): SyncActionStructure => ({
     type: types.REQUEST_CHANGE_ARTICLE_COMPLETED,
 });
