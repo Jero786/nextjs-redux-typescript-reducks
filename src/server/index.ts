@@ -6,10 +6,9 @@ import cookieParser from 'cookie-parser';
 import morgan from 'morgan';
 
 import routes from './routes';
-import connect from './database-conf/mongodb-connect';
 
 const dev = process.env.NODE_ENV !== 'production';
-const app = next({dir: './src/client', dev});
+const app = next({ dir: './src/client', dev });
 const handle = app.getRequestHandler();
 const port = parseInt(process.env.PORT, 10) || 3000;
 
@@ -19,7 +18,7 @@ app.prepare()
 
         // middleware
         server.use(bodyParser.json());
-        server.use(bodyParser.urlencoded({extended: true}));
+        server.use(bodyParser.urlencoded({ extended: true }));
         server.use(cors());
         server.use(cookieParser());
 
@@ -44,6 +43,3 @@ app.prepare()
         console.error(ex.stack);
         process.exit(1);
     });
-
-const db =  process.env.MONGODB_URL || 'mongodb://localhost/articles-code-challenge';
-connect({db});
