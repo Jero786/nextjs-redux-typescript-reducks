@@ -1,14 +1,14 @@
 // Libs
-import { shallow } from 'enzyme';
 import * as React from 'react';
+import { render, cleanup } from '@testing-library/react';
 
 // Card
 import Loading from './loading';
 
 describe('Loading', () => {
-    it('should render properly', () => {
-        const wrapper = shallow(<Loading />);
+    afterEach(cleanup);
 
-        expect(wrapper.find('.vtm-loading').text()).toBe('Loading...');
+    it('should render the component properly', () => {
+        render(<Loading />).getByText(/Loading.../);
     });
 });

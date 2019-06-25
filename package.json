@@ -14,6 +14,7 @@
     },
     "dependencies": {
         "@types/mongoose-paginate-v2": "^1.0.2",
+        "@testing-library/react": "^8.0.1",
         "@zeit/eslint-config-node": "^0.3.0",
         "@zeit/next-css": "^1.0.1",
         "@zeit/next-sass": "^1.0.1",
@@ -52,7 +53,6 @@
         "spotify-web-api-node": "^4.0.0"
     },
     "devDependencies": {
-        "@testing-library/react": "^8.0.1",
         "@types/body-parser": "^1.17.0",
         "@types/cookie-parser": "^1.4.1",
         "@types/cors": "^2.8.5",
